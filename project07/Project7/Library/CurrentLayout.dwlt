@@ -253,8 +253,8 @@ MonoBehaviour:
     y: 0
     width: 875
     height: 477
-  m_MinSize: {x: 204, y: 221}
-  m_MaxSize: {x: 4004, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -362,7 +362,7 @@ MonoBehaviour:
   m_LastFolders:
   - Assets
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: /Users/abhineetsharma/BitBucket/p07-jain-sharma/project07/project6
+  m_LastProjectPath: /Users/abhineetsharma/BitBucket/p07-jain-sharma/project07/Project7
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
