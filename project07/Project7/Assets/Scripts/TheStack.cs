@@ -13,6 +13,11 @@ public class TheStack : MonoBehaviour
 
     private float tileTransition = 0.0f;
     private float titleSpeed = 2.5f;
+	private float secondaryPosition;
+
+	private bool isMovingOfX = true;
+
+
 
     // Use this for initialization
     private void Start()
@@ -47,8 +52,10 @@ public class TheStack : MonoBehaviour
     private void MoveTile()
     {
         tileTransition += Time.deltaTime * titleSpeed;
-        theStack[stackIndex].transform.localPosition = new Vector3(Mathf.Sin(tileTransition * BOUND_SIZE), scoreCount, 0);
-
+		if(isMovingOfX)
+			theStack[stackIndex].transform.localPosition = new Vector3(Mathf.Sin(tileTransition) * BOUND_SIZE, scoreCount, 0);
+		else
+			theStack[stackIndex].transform.localPosition = new Vector3(0, scoreCount, Mathf.Sin(tileTransition) * BOUND_SIZE);
     }
 
     private void EndGame()
@@ -66,6 +73,15 @@ public class TheStack : MonoBehaviour
     }
     private bool PlaceTitle()
     {
+		Transform t = theStack [stackIndex].transform;
+
+		secondaryPosition = (isMovingOfX)
+			? t.localPosition.x
+			: t.localPosition.z;
+		
+		isMovingOfX = !isMovingOfX;
+
+
         return true;
     }
 }
