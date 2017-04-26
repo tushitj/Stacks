@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TheStack : MonoBehaviour
 {
-	public Color32 gameColors = new Color32[4];
+	public Color32 [] gameColors = new Color32[4];
 
 	private const float BOUND_SIZE = 3.5f;
 	private const float STACK_MOVING_SPEED = 5.0f;
@@ -112,7 +112,7 @@ public class TheStack : MonoBehaviour
 						? t.position.x + (t.localScale.x / 2)
 						: t.position.x - (t.localScale.x / 2)
 						, t.position.y, t.position.z),
-					new Vector3 (Mathf (deltaX), 1, t.localScale.z)
+					new Vector3 (Mathf.Abs (deltaX), 1, t.localScale.x)
 				);
 				t.localPosition = new Vector3 (middle - (lastTilePosition.x / 2), scoreCount, lastTilePosition.z);
 				 
@@ -155,7 +155,7 @@ public class TheStack : MonoBehaviour
 							(t.position.z > 0)
 							? t.position.z + (t.localScale.z / 2)
 							: t.position.z - (t.localScale.z / 2)),
-						new Vector3 (Mathf (deltaZ), 1, t.localScale.z)
+						new Vector3 (Mathf.Abs (deltaZ), 1, t.localScale.z)
 					);
 					t.localPosition = new Vector3 (lastTilePosition.x, scoreCount, middle - (lastTilePosition.z / 2));
 				}
@@ -174,18 +174,18 @@ public class TheStack : MonoBehaviour
 	private void ColorMesh(Mesh mesh){
 		Vector3[] vertices = mesh.vertices;
 		Color32[] colors = new Color32[vertices.Length];
-		float f = Mathf (scoreCount * 0.25f); 
+		float f = Mathf.Abs (scoreCount * 0.25f); 
 
 		for (int i = 0; i < vertices.Length; i++) {
-			colors [i] = lerp4 (gameColors[0],gameColors[1],gameColors[2],gameColors[3],f);
+			colors [i] = Lerp4 (gameColors[0],gameColors[1],gameColors[2],gameColors[3],f);
 		}
 		mesh.colors32 = colors;
 	
 	 }
-	private Color32 lerp4 (Color32 a, Color32 b, Color32 c, Color32 d){
-		if (tag < 0.33f)
-			return Color.Lerp (a, b, (t / 0.33));
-		else if (tag < 0.66f)
+	private Color32 Lerp4 (Color32 a, Color32 b, Color32 c, Color32 d,float t){
+		if (t < 0.33f)
+			return Color.Lerp (a, b, (t / 0.33f));
+		else if (t < 0.66f)
 			return Color.Lerp (b, c, (t - 0.33f) / 0.33f);
 		else
 			return Color.Lerp (c, d, (t - 0.66f) / 0.66f);
@@ -198,3 +198,4 @@ public class TheStack : MonoBehaviour
 		theStack [stackIndex].AddComponent<Rigidbody> ();
 
 	}
+}
