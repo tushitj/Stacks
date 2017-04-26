@@ -174,7 +174,7 @@ public class TheStack : MonoBehaviour
 	private void ColorMesh(Mesh mesh){
 		Vector3[] vertices = mesh.vertices;
 		Color32[] colors = new Color32[vertices.Length];
-		float f = Mathf.Abs (scoreCount * 0.25f); 
+		float f = Mathf.Sin (scoreCount * 0.25f); 
 
 		for (int i = 0; i < vertices.Length; i++) {
 			colors [i] = Lerp4 (gameColors[0],gameColors[1],gameColors[2],gameColors[3],f);
