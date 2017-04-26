@@ -10,6 +10,7 @@ public class TheStack : MonoBehaviour
 	private const float STACK_MOVING_SPEED = 5.0f;
 	private const float ERROR_MARGIN = 0.1f;
 	private const float STACK_BOUND_GAIN = 0.25f;
+
 	private const int COMBO_START_GAIN = 3;
 
 	private GameObject[] theStack;
