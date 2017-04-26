@@ -20,6 +20,7 @@ public class TheStack : MonoBehaviour
 	private float secondaryPosition;
 
 	private bool isMovingOfX = true;
+	private bool gameOver = false;
 
 	private Vector3 desiredPosition;
 	private Vector3 lastTilePosition;
@@ -58,6 +59,8 @@ public class TheStack : MonoBehaviour
 
     private void MoveTile()
     {
+		if (gameOver)
+			return;
         tileTransition += Time.deltaTime * titleSpeed;
 		if(isMovingOfX)
 			theStack[stackIndex].transform.localPosition = new Vector3(Mathf.Sin(tileTransition) * BOUND_SIZE, scoreCount, secondaryPosition);
@@ -67,6 +70,9 @@ public class TheStack : MonoBehaviour
 
     private void EndGame()
     {
+		Debug.Log ("Loose");
+		gameOver = true; 
+		theStack [stackIndex].AddComponent<Rigidbody> ();
 
     }
 
@@ -79,6 +85,7 @@ public class TheStack : MonoBehaviour
 
 		desiredPosition = (Vector3.down) * scoreCount;
         theStack[stackIndex].transform.localPosition = new Vector3(0, scoreCount, 0);
+		theStack[stackIndex].transform.localScale = new Vector3 (stackBounds.x, 1, stackBounds.y);
 
     }
     private bool PlaceTitle()
@@ -86,15 +93,40 @@ public class TheStack : MonoBehaviour
 		Transform t = theStack [stackIndex].transform;
 
 		if (isMovingOfX) {
-			float deltaX = lastTilePosition - t.position.x;
+			float deltaX = lastTilePosition.x - t.position.x;
 			if (Mathf.Abs (deltaX) > ERROR_MARGIN) {
 				combo = 0;
-				stackBounds.x -= MAthf.Abs (deltaX);
+				stackBounds.x -= Mathf.Abs (deltaX);
 				if (stackBounds.x <= 0)
 					return false;
 
-				float middle = lastTilePosition.x + t.localPositon.x / 2;
-				t.localScale()
+				float middle = lastTilePosition.x + t.localPosition.x / 2;
+				t.localScale = new Vector3 (stackBounds.x, 1, stackBounds.y);
+				t.localPosition = new Vector3 (middle - (lastTilePosition.x / 2), scoreCount, lastTilePosition.z);
+				 
+			} else {
+				combo++;
+				float middle = lastTilePosition.x + t.localPosition.x / 2;
+				t.localPosition = new Vector3 (middle - (lastTilePosition.x / 2), scoreCount, lastTilePosition.z);
+			}
+
+		} else {
+			float deltaZ = lastTilePosition.z - t.position.z;
+			if (Mathf.Abs (deltaZ) > ERROR_MARGIN) {
+				combo = 0;
+				stackBounds.y -= Mathf.Abs (deltaZ);
+				if (stackBounds.y <= 0)
+					return false;
+
+				float middle = lastTilePosition.z + t.localPosition.z / 2;
+				t.localScale = new Vector3 (stackBounds.x , 1, stackBounds.y);
+				t.localPosition = new Vector3 (lastTilePosition.x , scoreCount,middle - (lastTilePosition.z / 2));
+
+			}
+			else {
+				combo++;
+				float middle = lastTilePosition.z + t.localPosition.z / 2;
+				t.localPosition = new Vector3 (lastTilePosition.x , scoreCount,middle - (lastTilePosition.z / 2));
 
 			}
 		}
