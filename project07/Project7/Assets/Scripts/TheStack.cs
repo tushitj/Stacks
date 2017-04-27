@@ -5,6 +5,8 @@ using UnityEngine;
 public class TheStack : MonoBehaviour
 {
 	public Color32 [] gameColors = new Color32[4];
+	public Material stackMat;
+
 
 	private const float BOUND_SIZE = 3.5f;
 	private const float STACK_MOVING_SPEED = 5.0f;
@@ -35,9 +37,11 @@ public class TheStack : MonoBehaviour
 	private void Start ()
 	{
 		theStack = new GameObject[transform.childCount];
-
+		scoreCount = -transform.childCount;
 		for (int i = 0; i < transform.childCount; i++) {
 			theStack [i] = transform.GetChild (i).gameObject;
+			ColorMesh(theStack [i].GetComponent<MeshFilter> ().mesh);
+			scoreCount++;
 		}
 		stackIndex = transform.childCount - 1;
 
@@ -64,6 +68,8 @@ public class TheStack : MonoBehaviour
 		go.transform.localPosition = pos;
 		go.transform.localScale = scale;
 		go.AddComponent<Rigidbody> ();
+		go.GetComponent<MeshRenderer> ().material = stackMat;
+
 		ColorMesh (go.GetComponent<MeshFilter> ().mesh);
 	}
 
