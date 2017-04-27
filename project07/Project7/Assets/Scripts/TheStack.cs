@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TheStack : MonoBehaviour
 {
+	public Text scoreText;
 	public Color32 [] gameColors = new Color32[4];
 	public Material stackMat;
+	public GameObject endPanel;
+
+
+
 
 
 	private const float BOUND_SIZE = 3.5f;
@@ -37,11 +44,9 @@ public class TheStack : MonoBehaviour
 	private void Start ()
 	{
 		theStack = new GameObject[transform.childCount];
-		scoreCount = -transform.childCount;
 		for (int i = 0; i < transform.childCount; i++) {
 			theStack [i] = transform.GetChild (i).gameObject;
 			ColorMesh(theStack [i].GetComponent<MeshFilter> ().mesh);
-			scoreCount++;
 		}
 		stackIndex = transform.childCount - 1;
 
@@ -54,6 +59,7 @@ public class TheStack : MonoBehaviour
 			if (PlaceTitle ()) {
 				SpawnTitle ();
 				scoreCount++;
+				scoreText.text = scoreCount.ToString ();
 			} else {
 				EndGame ();
 			}
@@ -162,7 +168,7 @@ public class TheStack : MonoBehaviour
 							(t.position.z > 0)
 							? t.position.z + (t.localScale.z / 2)
 							: t.position.z - (t.localScale.z / 2)),
-						new Vector3 (Mathf.Abs (deltaZ), 1, t.localScale.z)
+						new Vector3 (t.localScale.x, 1,Mathf.Abs (deltaZ))
 					);
 					t.localPosition = new Vector3 (lastTilePosition.x, scoreCount, middle - (lastTilePosition.z / 2));
 				}
@@ -202,7 +208,14 @@ public class TheStack : MonoBehaviour
 	private void EndGame (){
 		Debug.Log ("Loose");
 		gameOver = true; 
+		endPanel.SetActive (true);
 		theStack [stackIndex].AddComponent<Rigidbody> ();
 
+	}
+
+	public void onButtonClick(string sceneName){
+		SceneManager.LoadScene(sceneName);
+
+	
 	}
 }
