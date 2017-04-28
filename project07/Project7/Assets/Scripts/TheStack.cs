@@ -206,7 +206,8 @@ public class TheStack : MonoBehaviour
 	}
 
 	private void EndGame (){
-		Debug.Log ("Loose");
+		if (PlayerPrefs.GetInt ("score") < scoreCount)
+			PlayerPrefs.SetInt ("score", scoreCount);
 		gameOver = true; 
 		endPanel.SetActive (true);
 		theStack [stackIndex].AddComponent<Rigidbody> ();
