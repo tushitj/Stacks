@@ -55,6 +55,8 @@ public class TheStack : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if (gameOver)
+			return;
 		if (Input.GetMouseButtonDown (0)) {
 			if (PlaceTitle ()) {
 				SpawnTitle ();
@@ -81,8 +83,6 @@ public class TheStack : MonoBehaviour
 
 	private void MoveTile ()
 	{
-		if (gameOver)
-			return;
 		tileTransition += Time.deltaTime * titleSpeed;
 		if (isMovingOfX)
 			theStack [stackIndex].transform.localPosition = new Vector3 (Mathf.Sin (tileTransition) * BOUND_SIZE, scoreCount, secondaryPosition);
@@ -211,12 +211,9 @@ public class TheStack : MonoBehaviour
 		gameOver = true; 
 		endPanel.SetActive (true);
 		theStack [stackIndex].AddComponent<Rigidbody> ();
-
 	}
 
 	public void onButtonClick(string sceneName){
 		SceneManager.LoadScene(sceneName);
-
-	
 	}
 }
